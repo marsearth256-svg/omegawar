@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import Globe from "react-globe.gl";
 
 function getThreatColor(e) {
@@ -34,7 +34,7 @@ export default function GlobeView({ events, selectedId, onSelect }) {
       <Globe
         ref={globeRef}
         backgroundColor="rgba(0,0,0,0)"
-        globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+        globeImageUrl="//unpkg.com/three-globe/example/img/earth-day.jpg"
         bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
         pointsData={points}
         pointLat="lat"
@@ -43,12 +43,12 @@ export default function GlobeView({ events, selectedId, onSelect }) {
         pointAltitude={(p) => (p._id === selectedId ? 0.08 : 0.03)}
         pointRadius={(p) => (p._id === selectedId ? 0.55 : 0.35)}
         onPointClick={(p) => onSelect?.(events.find((e) => e._id === p._id) ?? null)}
-        polygonsData="//unpkg.com/world-atlas/countries-110m.json"
-        polygonCapColor={() => "rgba(90, 130, 255, 0.12)"}
+        polygonsData="//unpkg.com/world-atlas/countries-50m.json"
+        polygonCapColor={() => "rgba(20, 60, 120, 0.12)"}
         polygonSideColor={() => "rgba(0,0,0,0.2)"}
-        polygonStrokeColor={() => "rgba(160, 200, 255, 0.15)"}
-        atmosphereAltitude={0.08}
-        atmosphereColor="rgba(94, 234, 212, 0.55)"
+        polygonStrokeColor={() => "rgba(120, 160, 220, 0.18)"}
+        atmosphereAltitude={0.1}
+        atmosphereColor="rgba(120, 190, 255, 0.45)"
         animateIn={true}
       />
       <div

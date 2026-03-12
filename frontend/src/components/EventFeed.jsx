@@ -1,3 +1,5 @@
+import React from "react";
+
 function severityColor(sev) {
   if (sev === "CRITICAL") return "var(--danger)";
   if (sev === "HIGH") return "var(--warn)";

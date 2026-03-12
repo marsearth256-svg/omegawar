@@ -28,3 +28,22 @@ export function streamEvents({ onEvent, onOpen, onError }) {
   return () => es.close();
 }
 
+export async function geocodeLocation({ name, country }) {
+  const q = [name, country].filter(Boolean).join(", ");
+  const url = new URL("https://nominatim.openstreetmap.org/search");
+  url.searchParams.set("format", "json");
+  url.searchParams.set("q", q);
+  url.searchParams.set("limit", "1");
+  const res = await fetch(url.toString(), {
+    headers: {
+      "User-Agent": "omega-warroom/1.0 (geocode)",
+      Accept: "application/json",
+    },
+  });
+  if (!res.ok) throw new Error(`geocode_failed_${res.status}`);
+  const data = await res.json();
+  const first = Array.isArray(data) && data[0] ? data[0] : null;
+  if (!first) return null;
+  return { lat: Number(first.lat), lng: Number(first.lon) };
+}
+

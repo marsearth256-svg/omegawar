@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
-import { fetchEvents, streamEvents, getApiBase } from "./api/client";
+import React, { useEffect, useMemo, useState } from "react";
+import { fetchEvents, streamEvents, getApiBase, geocodeLocation } from "./api/client";
 import GlobeView from "./components/GlobeView";
 import EventFeed from "./components/EventFeed";
+import RegionStatus from "./components/RegionStatus";
 
 export default function App() {
   const [items, setItems] = useState([]);
@@ -77,6 +78,45 @@ export default function App() {
       createdAt: selected.createdAt,
       sources: selected.sources,
       primaryLocation: selected.primaryLocation,
+    };
+  }, [selected]);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function maybeGeocode() {
+      if (!selected) return;
+      const loc = selected.primaryLocation;
+      const hasCoords = loc && typeof loc.lat === "number" && typeof loc.lng === "number";
+      const country = Array.isArray(selected.countries) && selected.countries[0] ? selected.countries[0] : null;
+      if (hasCoords || !country) return;
+      try {
+        const result = await geocodeLocation({ name: selected.title, country });
+        if (!result || cancelled) return;
+        setItems((prev) =>
+          prev.map((e) =>
+            e._id === selected._id
+              ? {
+                  ...e,
+                  primaryLocation: { name: country, country, lat: result.lat, lng: result.lng, precision: "country" },
+                }
+              : e
+          )
+        );
+        setSelected((s) =>
+          s
+            ? {
+                ...s,
+                primaryLocation: { name: country, country, lat: result.lat, lng: result.lng, precision: "country" },
+              }
+            : s
+        );
+      } catch {
+        // ignore geocode failures, keep UI stable
+      }
+    }
+    maybeGeocode();
+    return () => {
+      cancelled = true;
     };
   }, [selected]);
 
@@ -160,6 +200,10 @@ export default function App() {
                   <div style={{ fontSize: 12, color: "var(--muted)" }}>Risk</div>
                   <div style={{ marginTop: 4, fontWeight: 700 }}>{Math.round(details.riskScore ?? 0)}</div>
                 </div>
+              </div>
+
+              <div style={{ marginTop: 12 }}>
+                <RegionStatus primaryLocation={details.primaryLocation} />
               </div>
 
               {details.primaryLocation?.lat != null && details.primaryLocation?.lng != null ? (

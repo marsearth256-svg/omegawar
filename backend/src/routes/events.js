@@ -14,7 +14,11 @@ const listSchema = z.object({
 
 eventsRouter.get("/", async (req, res, next) => {
   try {
-    const query = listSchema.parse(req.query);
+    const parsed = listSchema.safeParse(req.query);
+    if (!parsed.success) {
+      return res.status(400).json({ error: "invalid_request", details: parsed.error.flatten() });
+    }
+    const query = parsed.data;
 
     const mongoQuery = {};
     if (query.severity) mongoQuery.severity = query.severity;

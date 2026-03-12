@@ -6,7 +6,9 @@
     "dev": "nodemon --watch src --ext js --signal SIGTERM src/index.js",
     "start": "node src/index.js",
     "lint": "eslint .",
-    "build": "echo \"no build step\""
+    "build": "echo \"no build step\"",
+    "test": "vitest run",
+    "test:coverage": "set COVERAGE=true&& vitest run --coverage"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -21,9 +23,26 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^2.1.9",
     "eslint": "^9.39.1",
     "globals": "^16.5.0",
-    "nodemon": "^3.1.10"
+    "mongodb-memory-server": "^10.1.4",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.0",
+    "vitest": "^2.1.4"
+  },
+  "vitest": {
+    "coverage": {
+      "provider": "v8",
+      "reportsDirectory": "coverage",
+      "reporter": ["text", "html"],
+      "lines": 90,
+      "functions": 90,
+      "branches": 85,
+      "statements": 90,
+      "exclude": ["**/index.js"],
+      "include": ["src/services/**", "src/routes/**", "src/realtime/**", "src/utils/**", "src/models/**"]
+    },
+    "testTimeout": 20000
   }
 }
-
