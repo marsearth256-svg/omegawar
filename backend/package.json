@@ -1,0 +1,29 @@
+{
+  "name": "@omega-warroom/backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon --watch src --ext js --signal SIGTERM src/index.js",
+    "start": "node src/index.js",
+    "lint": "eslint .",
+    "build": "echo \"no build step\""
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "mongoose": "^8.19.0",
+    "morgan": "^1.10.1",
+    "p-limit": "^6.2.0",
+    "rss-parser": "^3.13.0",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "nodemon": "^3.1.10"
+  }
+}
+
