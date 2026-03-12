@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install deps
+        run: npm install
+      - name: Lint
+        run: npm run lint
+      - name: Build frontend
+        run: npm run build -w frontend
+      - name: Backend tests (coverage gate)
+        run: npm run test:coverage -w backend
+      - name: Frontend tests
+        run: npm run test -w frontend

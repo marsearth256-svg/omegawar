@@ -6,5 +6,17 @@ export default defineConfig({
   server: {
     port: 5173,
   },
+  build: {
+    chunkSizeWarningLimit: 1500,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ["react", "react-dom"],
+          three: ["three"],
+          globe: ["react-globe.gl"],
+        },
+      },
+    },
+  },
 });
 

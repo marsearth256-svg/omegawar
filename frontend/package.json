@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "react": "^19.2.4",
@@ -24,6 +26,22 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "vite": "^7.3.1"
+    "vite": "^7.3.1",
+    "vitest": "^2.1.4",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
+    "jsdom": "^25.0.0"
+  },
+  "vitest": {
+    "environment": "jsdom",
+    "coverage": {
+      "provider": "v8",
+      "reportsDirectory": "coverage",
+      "reporter": ["text", "html"],
+      "lines": 0.9,
+      "functions": 0.9,
+      "branches": 0.85,
+      "statements": 0.9
+    }
   }
 }
