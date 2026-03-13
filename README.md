@@ -1,4 +1,4 @@
-# Omega War-Room (MERN + Gemini)
+# ATLAS GLOBAL INTELLIGENCE NETWORK (MERN + Gemini)
 
 Production-leaning end-to-end MERN baseline for a 24/7 Geopolitics & Global Current Affairs Intelligence Platform:
 
